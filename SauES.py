@@ -12,10 +12,10 @@ class SauES:
         self.block_size = self.IV_LENGTH // self.BITS_PER_BYTE
         self.round_keys = KeyScheduler.get_round_keys(key)
     
-    def apply_XOR(self, char1: str, char2: str):
+    def apply_XOR(self, char1: str, char2: str)-> str:
         return str(int(char1) ^ int(char2))
 
-    def encrypt(self, plain_text: str):
+    def encrypt(self, plain_text: str) -> str:
         transformed_plain_text = self.transform_plain_text(plain_text)
         
         cypher_text = []
@@ -32,7 +32,7 @@ class SauES:
 
         return cypher_text
     
-    def encrypt_block(self, block: str):
+    def encrypt_block(self, block: str) -> str:
         encrypted_block = [bit for bit in block]
 
         for round in range(self.ROUNDS):
@@ -42,7 +42,7 @@ class SauES:
 
         return ''.join(encrypted_block)
     
-    def decrypt(self, cypher_text: str):
+    def decrypt(self, cypher_text: str) -> str:
         transformed_cypher_text = self.decode_from_base64(cypher_text)
         plain_text = []
 
@@ -58,7 +58,7 @@ class SauES:
 
         return plain_text
 
-    def decrypt_block(self, block: str):
+    def decrypt_block(self, block: str) -> str:
         decrypted_block = [bit for bit in block]
 
         reversed_round_keys = list(reversed(self.round_keys))
@@ -71,7 +71,7 @@ class SauES:
 
         return ''.join(decrypted_block)
     
-    def transform_plain_text(self, plain_text: str):
+    def transform_plain_text(self, plain_text: str) -> str:
         # trim leading and trailing whitespace
         plain_text = plain_text.strip()
 
@@ -85,13 +85,13 @@ class SauES:
 
         return plain_text
 
-    def transform_to_string(self, binary_string: str):
+    def transform_to_string(self, binary_string: str) -> str:
         return ''.join([chr(int(binary_string[i: i + self.BITS_PER_BYTE], 2)) for i in range(0, len(binary_string), self.BITS_PER_BYTE)])
     
     # change to base64
-    def encode_to_base64(self, text: str, encoding='utf-8'):
+    def encode_to_base64(self, text: str, encoding='utf-8') -> str:
         return base64.b64encode(text.encode(encoding)).decode(encoding)
 
     # change to string
-    def decode_from_base64(self, text: str, encoding='utf-8'):
+    def decode_from_base64(self, text: str, encoding='utf-8') -> str:
         return base64.b64decode(text.encode(encoding)).decode(encoding)

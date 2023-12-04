@@ -1,4 +1,5 @@
 from config import Config
+from typing import List
 
 class KeyScheduler:
     KEY_LENGTH = Config.KEY_LENGTH.value
@@ -7,7 +8,7 @@ class KeyScheduler:
     KEY_PERMUTATION_TABLE = Config.KEY_PERMUTATION_TABLE.value
     
     @staticmethod
-    def transform_key(key: str):
+    def transform_key(key: str) -> str:
         # trim leading and trailing whitespace
         key = key.strip()
 
@@ -19,12 +20,12 @@ class KeyScheduler:
         return ''.join([bin(ord(char))[2:].zfill(KeyScheduler.BITS_PER_BYTE) for char in key])
 
     @staticmethod
-    def permute_key(key: str):
+    def permute_key(key: str) -> str:
         permuted_key = ''.join([key[index] for index in KeyScheduler.KEY_PERMUTATION_TABLE])
         return permuted_key
     
     @staticmethod
-    def get_round_keys(key: str):
+    def get_round_keys(key: str) -> List[str]:
         transformed_key = KeyScheduler.transform_key(key)
         permuted_key = KeyScheduler.permute_key(transformed_key)
         round_keys = []
@@ -36,7 +37,7 @@ class KeyScheduler:
         return round_keys
 
     @staticmethod
-    def left_shift(key: str, shift: int):
+    def left_shift(key: str, shift: int) -> str:
         shifted_key = bin(int(key, 2) << shift)[2:].zfill(KeyScheduler.KEY_LENGTH)
 
         if len(shifted_key) > KeyScheduler.KEY_LENGTH:

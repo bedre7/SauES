@@ -1,6 +1,7 @@
 from config import Config
 from key_scheduler import KeyScheduler
 from math import ceil
+import base64
 
 class SauES:
     def __init__(self, key: str) -> None:
@@ -27,7 +28,7 @@ class SauES:
         
         # convert to string
         cypher_text = ''.join(cypher_text)
-        cypher_text = self.transform_to_string(cypher_text)
+        cypher_text = self.encode_to_base64(cypher_text)
 
         return cypher_text
     
@@ -42,7 +43,7 @@ class SauES:
         return ''.join(encrypted_block)
     
     def decrypt(self, cypher_text: str):
-        transformed_cypher_text = self.transform_cypher_text(cypher_text)
+        transformed_cypher_text = self.decode_from_base64(cypher_text)
         plain_text = []
 
         for i in range(0, len(transformed_cypher_text), self.IV_LENGTH):
@@ -84,26 +85,13 @@ class SauES:
 
         return plain_text
 
-    def transform_cypher_text(self, cypher_text: str):
-        # trim leading and trailing whitespace
-        cypher_text = cypher_text.strip()
+    def transform_to_string(self, binary_string: str):
+        return ''.join([chr(int(binary_string[i: i + self.BITS_PER_BYTE], 2)) for i in range(0, len(binary_string), self.BITS_PER_BYTE)])
+    
+    # change to base64
+    def encode_to_base64(self, text: str, encoding='utf-8'):
+        return base64.b64encode(text.encode(encoding)).decode(encoding)
 
-        # pad with whitespace if cypher_text is too short or not a multiple of IV_LENGTH
-        # if len(cypher_text) % self.IV_LENGTH != 0:
-        #     needed_blocks = ceil(len(cypher_text) / self.IV_LENGTH)
-        #     cypher_text = cypher_text.ljust(needed_blocks * self.IV_LENGTH)
-        
-        # convert to binary string
-        cypher_text = ''.join([bin(ord(char))[2:].zfill(self.BITS_PER_BYTE) for char in cypher_text])
-
-        return cypher_text
-
-    # change the texts back to strings
-    def transform_to_string(self, text: str, encoding='utf-8'):
-        # Convert hexadecimal string to bytes
-        byte_value = bytes.fromhex(text)
-
-        # Decode bytes using the specified encoding
-        decoded_text = byte_value.decode(encoding)
-
-        return decoded_text
+    # change to string
+    def decode_from_base64(self, text: str, encoding='utf-8'):
+        return base64.b64decode(text.encode(encoding)).decode(encoding)

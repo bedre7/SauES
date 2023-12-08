@@ -10,7 +10,7 @@ CORS(app)
 def encrypt():
     try:
         key = request.json['key']
-        plain_text = request.json['text']
+        plain_text = request.json['plainText']
 
         sauES = SauES(key)
 
@@ -19,8 +19,8 @@ def encrypt():
         end_time = time()
 
         return jsonify({
-            'cypher_text': cypher_text, 
-            'time_taken': f'{round((end_time - start_time) * 1000, 2)}ms'
+            'cypherText': cypher_text, 
+            'timeTaken': f'{round((end_time - start_time) * 1000, 2)}ms'
             })
     
     except Exception as e:
@@ -30,7 +30,7 @@ def encrypt():
 def decrypt():
     try:
         key = request.json['key']
-        cypher_text = request.json['text']
+        cypher_text = request.json['cipherText']
 
         sauES = SauES(key)
 
@@ -39,8 +39,8 @@ def decrypt():
         end_time = time()
 
         return jsonify({
-            'plain_text': plain_text, 
-            'time_taken': f'{round((end_time - start_time) * 1000, 2)}ms'
+            'plainText': plain_text, 
+            'timeTaken': f'{round((end_time - start_time) * 1000, 2)}ms'
             })
     
     except Exception as e:

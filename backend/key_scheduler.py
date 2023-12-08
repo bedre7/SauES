@@ -12,6 +12,9 @@ class KeyScheduler:
         # trim leading and trailing whitespace
         key = key.strip()
 
+        if len(key) > KeyScheduler.KEY_LENGTH // KeyScheduler.BITS_PER_BYTE:
+            raise ValueError(f'Key must be {KeyScheduler.KEY_LENGTH // KeyScheduler.BITS_PER_BYTE} bytes long')
+
         # pad with whitespace
         if len(key) < KeyScheduler.KEY_LENGTH // KeyScheduler.BITS_PER_BYTE:
             key = key.ljust(KeyScheduler.KEY_LENGTH // KeyScheduler.BITS_PER_BYTE)

@@ -17,7 +17,7 @@ if __name__ == '__main__':
         # record the time after encryption
         end_time = time()
         # print the time taken to encrypt in milliseconds
-        print(f'Encoded in {round((end_time - start_time) * 1000, 2)}ms') 
+        print(f'Encoded in {round((end_time - start_time) * 1000, 3)}ms') 
     elif operation.lower() == 'decrypt':
         start_time = time()
         print("Decrypted text: ", sauES.decrypt(text))

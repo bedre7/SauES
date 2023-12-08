@@ -2,10 +2,10 @@ from config import Config
 from typing import List
 
 class KeyScheduler:
-    KEY_LENGTH = Config.KEY_LENGTH.value
-    BITS_PER_BYTE = Config.BITS_PER_BYTE.value
-    ROUNDS = Config.ROUNDS.value
-    KEY_PERMUTATION_TABLE = Config.KEY_PERMUTATION_TABLE.value
+    KEY_LENGTH = Config.KEY_LENGTH
+    BITS_PER_BYTE = Config.BITS_PER_BYTE
+    ROUNDS = Config.ROUNDS
+    KEY_PERMUTATION_TABLE = Config.KEY_PERMUTATION_TABLE
     
     @staticmethod
     def transform_key(key: str) -> str:

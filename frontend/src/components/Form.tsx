@@ -22,7 +22,7 @@ const Form: FC<FormProps> = ({ type }) => {
   });
 
   const outputRef = useRef<HTMLTextAreaElement>(null);
-  const timerRef = useRef<number | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [copyButtonText, setCopyButtonText] = useState("Copy");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

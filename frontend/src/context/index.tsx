@@ -50,7 +50,7 @@ const SauESContextProvider: React.FC<{ children: ReactNode }> = ({
     decrypt: false,
   });
   const apiUrl = import.meta.env.VITE_API_URL;
-  
+
   const encrypt = async (key: string, plainText: string) => {
     try {
       setLoading(true);
@@ -58,6 +58,8 @@ const SauESContextProvider: React.FC<{ children: ReactNode }> = ({
         encrypt: true,
         decrypt: false,
       }));
+      setOutputText("");
+      setTimeTaken("");
 
       const {
         data: { cypherText, timeTaken },
@@ -87,6 +89,8 @@ const SauESContextProvider: React.FC<{ children: ReactNode }> = ({
         encrypt: false,
         decrypt: true,
       }));
+      setOutputText("");
+      setTimeTaken("");
 
       const {
         data: { plainText, timeTaken },

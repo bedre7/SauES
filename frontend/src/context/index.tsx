@@ -49,7 +49,8 @@ const SauESContextProvider: React.FC<{ children: ReactNode }> = ({
     encrypt: false,
     decrypt: false,
   });
-
+  const apiUrl = import.meta.env.VITE_API_URL;
+  
   const encrypt = async (key: string, plainText: string) => {
     try {
       setLoading(true);
@@ -60,7 +61,7 @@ const SauESContextProvider: React.FC<{ children: ReactNode }> = ({
 
       const {
         data: { cypherText, timeTaken },
-      } = await axios.post("http://localhost:5000/encrypt", {
+      } = await axios.post(apiUrl + "/encrypt", {
         key,
         plainText,
       });
@@ -89,7 +90,7 @@ const SauESContextProvider: React.FC<{ children: ReactNode }> = ({
 
       const {
         data: { plainText, timeTaken },
-      } = await axios.post("http://localhost:5000/decrypt", {
+      } = await axios.post(apiUrl + "/decrypt", {
         key,
         cipherText,
       });

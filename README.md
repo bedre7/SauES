@@ -1,12 +1,9 @@
 # SauES
 
-## 💻 Online Demo
-
-You can play around with the online demo [here](https://sau-es.netlify.app/).
-
 ## 📝 About
 
 - SauES is a custom encryption standard inspired mainly by the DES standard. It is a symmetric key encryption standard.
+- You can play around with the online demo [here](https://sau-es.netlify.app/).
 
 ## 💡Motivation
 
@@ -51,7 +48,7 @@ You can play around with the online demo [here](https://sau-es.netlify.app/).
 
 ## ⚙️ Installation and setup instructions
 
-1. Clone down this repo. Use Git or checkout with SVN using the web URL <br><br>
+1. Clone this repo. <br><br>
    ```sh
    git clone https://github.com/bedre7/SauES.git
    ```

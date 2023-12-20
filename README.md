@@ -1,5 +1,6 @@
 # SauES
 
+![App Screenshot](./frontend/screenshot.png)
 ## 📝 About
 
 - SauES is a custom encryption standard inspired mainly by the DES standard. It is a symmetric key encryption standard.

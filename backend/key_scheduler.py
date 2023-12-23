@@ -8,7 +8,7 @@ class KeyScheduler:
     KEY_PERMUTATION_TABLE = Config.KEY_PERMUTATION_TABLE
     
     @staticmethod
-    def transform_key(key: str) -> str:
+    def convert_to_binary_string(key: str) -> str:
         # trim leading and trailing whitespace
         key = key.strip()
 
@@ -29,8 +29,8 @@ class KeyScheduler:
     
     @staticmethod
     def get_round_keys(key: str) -> List[str]:
-        transformed_key = KeyScheduler.transform_key(key)
-        permuted_key = KeyScheduler.permute_key(transformed_key)
+        binary_key = KeyScheduler.convert_to_binary_string(key)
+        permuted_key = KeyScheduler.permute_key(binary_key)
         round_keys = []
         
         for round in range(KeyScheduler.ROUNDS):

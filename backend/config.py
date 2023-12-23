@@ -1,6 +1,6 @@
 class Config:
     KEY_LENGTH = 48
-    IV_LENGTH = 48
+    BLOCK_LNEGTH = 48
     ROUNDS = 6
     BITS_PER_BYTE = 8
     # generate these tables randomly 

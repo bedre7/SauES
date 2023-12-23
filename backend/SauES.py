@@ -6,12 +6,12 @@ import base64
 class SauES:
     def __init__(self, key: str) -> None:
         self.KEY_LENGTH = Config.KEY_LENGTH
-        self.IV_LENGTH = Config.IV_LENGTH
+        self.BLOCK_LENGTH = Config.BLOCK_LNEGTH
         self.BITS_PER_BYTE = Config.BITS_PER_BYTE
         self.ROUNDS = Config.ROUNDS
         self.SUBSTITUTION_TABLES = Config.SUBSTITUTION_TABLES
         self.INVERSE_SUBSTITUTION_TABLES = Config.INVERSE_SUBSTITUTION_TABLES
-        self.block_size = self.IV_LENGTH // self.BITS_PER_BYTE
+        self.block_size = self.BLOCK_LENGTH // self.BITS_PER_BYTE               # BLOCK_LENGTH in bytes
         self.round_keys = KeyScheduler.get_round_keys(key)
     
     def apply_XOR(self, char1: str, char2: str)-> str:
@@ -25,8 +25,8 @@ class SauES:
         
         binary_cypher_text = []
 
-        for i in range(0, len(binary_plain_text), self.IV_LENGTH):
-            block = binary_plain_text[i: i + self.IV_LENGTH]
+        for i in range(0, len(binary_plain_text), self.BLOCK_LENGTH):
+            block = binary_plain_text[i: i + self.BLOCK_LENGTH]
             encrypted_block = self.encrypt_block(block)
 
             binary_cypher_text.append(encrypted_block) 
@@ -45,7 +45,7 @@ class SauES:
             # apply substitution table -> S-Box
             encrypted_block = self.apply_substitution(encrypted_block, self.SUBSTITUTION_TABLES[round])
 
-            for bit in range(self.IV_LENGTH):
+            for bit in range(self.BLOCK_LENGTH):
                 encrypted_block[bit] = self.apply_XOR(encrypted_block[bit], round_key[bit])
 
 
@@ -55,8 +55,8 @@ class SauES:
         binary_cypher_text = self.decode_from_base64(cypher_text)
         binary_plain_text = []
 
-        for i in range(0, len(binary_cypher_text), self.IV_LENGTH):
-            block = binary_cypher_text[i: i + self.IV_LENGTH]
+        for i in range(0, len(binary_cypher_text), self.BLOCK_LENGTH):
+            block = binary_cypher_text[i: i + self.BLOCK_LENGTH]
             decrypted_block = self.decrypt_block(block)
 
             binary_plain_text.append(decrypted_block)
@@ -74,7 +74,7 @@ class SauES:
         for round in range(self.ROUNDS):
             round_key = reversed_round_keys[round]
 
-            for bit in range(self.IV_LENGTH):
+            for bit in range(self.BLOCK_LENGTH):
                 decrypted_block[bit] = self.apply_XOR(decrypted_block[bit], round_key[bit])
             
             """ 
@@ -92,7 +92,7 @@ class SauES:
 
         # pad with whitespace if plain_text is too short or not a multiple of IV_LENGTH
         if len(plain_text) % self.block_size != 0:
-            needed_blocks = ceil(len(plain_text) / (self.IV_LENGTH // self.BITS_PER_BYTE))
+            needed_blocks = ceil(len(plain_text) / (self.BLOCK_LENGTH // self.BITS_PER_BYTE))
             plain_text = plain_text.ljust(needed_blocks * self.block_size)
         
         # convert to binary string
